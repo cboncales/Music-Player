@@ -39,6 +39,20 @@ void addSong(Song** playlist, const char* title, const char* artist, int duratio
     printf("Song '%s' by %s added to the playlist.\n", title, artist);
 }
 
+// Function to display the playlist
+void displayPlaylist(Song* playlist) {
+    if (playlist == NULL) {
+        printf("The playlist is empty.\n");
+        return;
+    }
+    printf("Current Playlist:\n");
+    Song* temp = playlist;
+    while (temp != NULL) {
+        printf("Title: %s, Artist: %s, Duration: %d seconds\n", temp->title, temp->artist, temp->duration);
+        temp = temp->next;
+    }
+}
+
 int main() {
     Song* playlist = NULL;
     char title[100], artist[100];
@@ -67,6 +81,9 @@ int main() {
                 scanf("%d", &duration);
                 getchar(); // Consume newline character
                 addSong(&playlist, title, artist, duration);
+                break;
+            case 2:
+                displayPlaylist(playlist);
                 break;
         }
     }
