@@ -53,6 +53,18 @@ void displayPlaylist(Song* playlist) {
     }
 }
 
+// Function to play the next song in the playlist
+void playNext(Song** playlist) {
+    if (*playlist == NULL) {
+        printf("No songs in the playlist.\n");
+        return;
+    }
+    Song* nextSong = *playlist;
+    printf("Now playing: %s by %s (%d seconds)\n", nextSong->title, nextSong->artist, nextSong->duration);
+    *playlist = nextSong->next;
+    free(nextSong);
+}
+
 int main() {
     Song* playlist = NULL;
     char title[100], artist[100];
@@ -85,6 +97,10 @@ int main() {
             case 2:
                 displayPlaylist(playlist);
                 break;
+            case 3:
+                playNext(&playlist);
+                break;
+            
         }
     }
 
