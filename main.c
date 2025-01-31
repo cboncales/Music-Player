@@ -65,6 +65,41 @@ void playNext(Song** playlist) {
     free(nextSong);
 }
 
+// Function to remove a song by title
+void removeSong(Song** playlist, const char* title) {
+    if (*playlist == NULL) {
+        printf("The playlist is empty.\n");
+        return;
+    }
+    Song* temp = *playlist;
+    Song* prev = NULL;
+
+    // Check if the song to be removed is the first song
+    if (strcmp(temp->title, title) == 0) {
+        *playlist = temp->next;
+        free(temp);
+        printf("Song '%s' removed from the playlist.\n", title);
+        return;
+    }
+
+    // Search for the song in the playlist
+    while (temp != NULL && strcmp(temp->title, title) != 0) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    // If the song was not found
+    if (temp == NULL) {
+        printf("Song '%s' not found in the playlist.\n", title);
+        return;
+    }
+
+    // Remove the song
+    prev->next = temp->next;
+    free(temp);
+    printf("Song '%s' removed from the playlist.\n", title);
+}
+
 int main() {
     Song* playlist = NULL;
     char title[100], artist[100];
@@ -100,7 +135,12 @@ int main() {
             case 3:
                 playNext(&playlist);
                 break;
-            
+            case 4:
+                printf("Enter the title of the song to remove: ");
+                fgets(title, sizeof(title), stdin);
+                title[strcspn(title, "\n")] = '\0'; // Remove newline character
+                removeSong(&playlist, title);
+                break;
         }
     }
 
