@@ -100,6 +100,16 @@ void removeSong(Song** playlist, const char* title) {
     printf("Song '%s' removed from the playlist.\n", title);
 }
 
+// Function to free the entire playlist
+void freePlaylist(Song* playlist) {
+    Song* temp;
+    while (playlist != NULL) {
+        temp = playlist;
+        playlist = playlist->next;
+        free(temp);
+    }
+}
+
 int main() {
     Song* playlist = NULL;
     char title[100], artist[100];
@@ -141,6 +151,12 @@ int main() {
                 title[strcspn(title, "\n")] = '\0'; // Remove newline character
                 removeSong(&playlist, title);
                 break;
+            case 5:
+                freePlaylist(playlist);
+                printf("Exiting the music player. Goodbye!\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
         }
     }
 
